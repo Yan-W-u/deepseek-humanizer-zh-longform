@@ -1,4 +1,4 @@
-# humanizer-fiction-zh
+# deep-AI-feel-skill
 
 一个给中文小说"去 AI 味"的 Skill。
 
@@ -24,12 +24,12 @@ AI 写的小说有个通病：不说人话。
 
 **改写（默认）**
 
-    /humanizer-fiction-zh 润色这段
-    /humanizer-fiction-zh 把 第三章.md 的 AI 味去掉
+    /deep-ai-feel-skill 润色这段
+    /deep-ai-feel-skill 把 第三章.md 的 AI 味去掉
 
 **只检测，不动稿**
 
-    /humanizer-fiction-zh 检测这篇的 AI 痕迹
+    /deep-ai-feel-skill 检测这篇的 AI 痕迹
 
 检测模式出一张表，逐条列出命中的规则、原文片段、严重度，再给五个维度打分：具体性、节奏、克制、信息密度、声音，满分 50。
 

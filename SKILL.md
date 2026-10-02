@@ -1,5 +1,5 @@
 ---
-name: humanizer-fiction-zh
+name: deep-ai-feel-skill
 description: |
   识别并改写中文小说、散文等文学文本里的"AI味"，让叙述回到具体、有取舍的人味。
   适用于：去AI味、AI腔太重、这段像AI写的、humanize 一段小说、润色叙事稿、检测AI痕迹。
