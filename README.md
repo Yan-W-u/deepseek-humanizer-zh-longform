@@ -1,4 +1,4 @@
-# deepseek-humanizer-zh-longform
+# zh-novel-writing-toolkit
 
 给中文长篇写作准备的一套工具，主要是长篇小说：
 
@@ -16,13 +16,13 @@ skill 都是单文件、零依赖，装进任何支持 Agent Skills 的编辑器
 | `deep-ai-feel-skill` | 通用去 AI 味：A–F 组 | 拿到成稿，逐条去味 |
 | `deepseek-humanizer-zh-longform` | DeepSeek 特化去 AI 味：DS1–DS13 | 稿子明确由 DeepSeek 写成 |
 
-    npx skills add Yan-W-u/deepseek-humanizer-zh-longform --skill novel-writing-coach-zh -g
-    npx skills add Yan-W-u/deepseek-humanizer-zh-longform --skill deep-ai-feel-skill -g
-    npx skills add Yan-W-u/deepseek-humanizer-zh-longform --skill deepseek-humanizer-zh-longform -g
+    npx skills add Yan-W-u/zh-novel-writing-toolkit --skill novel-writing-coach-zh -g
+    npx skills add Yan-W-u/zh-novel-writing-toolkit --skill deep-ai-feel-skill -g
+    npx skills add Yan-W-u/zh-novel-writing-toolkit --skill deepseek-humanizer-zh-longform -g
 
 三个一起装：
 
-    npx skills add Yan-W-u/deepseek-humanizer-zh-longform --all -g
+    npx skills add Yan-W-u/zh-novel-writing-toolkit --all -g
 
 也可以手动把对应目录里的 SKILL.md 放进工具的 skills 目录。
 
