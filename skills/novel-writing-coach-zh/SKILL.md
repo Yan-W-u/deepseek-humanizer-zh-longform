@@ -7,7 +7,7 @@ description: |
   只管怎么写，不改设定表、代码、链接；不替作者新增情节事实。
 license: MIT
 metadata:
-  version: "0.1.0"
+  version: "0.1.1"
   family: deep-ai-feel-skill
 ---
 
@@ -27,8 +27,8 @@ metadata:
 
 | 症状 | 在哪一层 | 去哪 |
 |---|---|---|
-| 故事本身不成立：激励事件太软、对手太弱、欲望不明确 | 结构与人物 | [references/story.md](references/story.md) |
-| 这一段读完了什么都没变 | 场景与节奏 | [references/story.md](references/story.md) |
+| 故事本身不成立：激励事件太软、对手太弱、欲望不明确、因果关系断裂（关键结果没有原因支撑） | 结构与人物 | [references/story.md](references/story.md) |
+| 这一段读完了什么都没变，或几场戏在反复说同一件事 | 场景与节奏 | [references/story.md](references/story.md) |
 | 台词都一个腔、把该说的直说了、信息太满 | 对话 | [references/dialogue.md](references/dialogue.md) |
 | 不知道这是谁在讲、该展示却讲述、细节没意义 | 叙述与视角 | [references/pov.md](references/pov.md) |
 | 句子不顺、读起来累、节奏平 | 语言 | [references/language.md](references/language.md) |
