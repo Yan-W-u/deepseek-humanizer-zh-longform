@@ -1,25 +1,75 @@
 # deepseek-humanizer-zh-longform
 
-给中文长文去 AI 味的两个 Skill，主要面向长篇小说。单文件，零依赖，装进任何支持 Agent Skills 的编辑器就能用。
+给中文长篇写作准备的一套工具，主要是长篇小说：
+
+- 一个**写作教练** skill，管怎么写才对；
+- 两个**去 AI 味** skill，管已经写歪的怎么改回来；
+- 一个**机械检查** MCP 服务，把标点、句长、词表这些能算的东西交给代码。
+
+skill 都是单文件、零依赖，装进任何支持 Agent Skills 的编辑器就能用。MCP 只需要 Node ≥18。
 
 ## 装哪个
 
-仓库里有两个 Skill：
-
-| Skill | 对症 | 安装 |
+| Skill | 管什么 | 什么时候用 |
 |---|---|---|
-| `deepseek-humanizer-zh-longform` | DeepSeek 特化：逗号碎句、对称排比、无关信息金句化、规训腔、留白腔 | `npx skills add Yan-W-u/deepseek-humanizer-zh-longform --skill deepseek-humanizer-zh-longform -g` |
-| `deep-ai-feel-skill` | 通用体检：五类 AI 结构习惯 + 改写 | `npx skills add Yan-W-u/deepseek-humanizer-zh-longform --skill deep-ai-feel-skill -g` |
+| `novel-writing-coach-zh` | **写作教练**：立意、结构、人物、场景、对话、视角、句子基本功、改稿定位 | 动笔前、落笔时、改稿定位问题 |
+| `deep-ai-feel-skill` | 通用去 AI 味：A–F 组 | 拿到成稿，逐条去味 |
+| `deepseek-humanizer-zh-longform` | DeepSeek 特化去 AI 味：DS1–DS13 | 稿子明确由 DeepSeek 写成 |
 
-两个一起装：
+    npx skills add Yan-W-u/deepseek-humanizer-zh-longform --skill novel-writing-coach-zh -g
+    npx skills add Yan-W-u/deepseek-humanizer-zh-longform --skill deep-ai-feel-skill -g
+    npx skills add Yan-W-u/deepseek-humanizer-zh-longform --skill deepseek-humanizer-zh-longform -g
+
+三个一起装：
 
     npx skills add Yan-W-u/deepseek-humanizer-zh-longform --all -g
 
 也可以手动把对应目录里的 SKILL.md 放进工具的 skills 目录。
 
-## DeepSeek 特化版对症哪几条
+**正确顺序**：先用写作教练把结构、场景、对话、句子写对，再用去味规则扫最后一遍。反过来做是白费功夫——一段本来就多余的戏，把句子磨得再像人写的，它还是多余。
 
-DeepSeek 写中文长文，第一眼认出来的是短：句子短、分句短，短得没有理由。它把断句当成了有文采的默认手段，于是不重要的信息也配上金句的乐。
+## 写作教练管什么
+
+`novel-writing-coach-zh` 有三种模式：
+
+- **plan**：动笔前搭骨架。先逼出一句话"这个故事想证明什么"，再走特鲁比的七个关键步骤，把主要人物填进四角对立。产出几句话或一张表，不是几十页设定。
+- **draft**：落笔时指导。判断这一段的价值往哪动，用"进场晚、退场早"切，逐句按句子基本功写，对话先想潜台词。
+- **diagnose**（默认）：成品稿诊断。**先定位问题在哪一层，再动手。**
+
+核心工具是这张定位表：
+
+| 症状 | 在哪一层 |
+|---|---|
+| 故事不成立（激励事件太软、对手太弱） | 结构与人物 |
+| 这一段读完什么都没变 | 场景与节奏 |
+| 台词一个腔、把该说的直说了 | 对话 |
+| 不知道这是谁在讲 | 叙述与视角 |
+| 句子不顺、读起来累 | 语言 |
+
+细则放在 `references/` 里，按需加载，用到哪块读哪块：
+
+| 文件 | 内容 |
+|---|---|
+| `references/story.md` | 麦基（激励事件/转折点/场景价值/鸿沟/控制性理念）+ 特鲁比（设计原则/七步/四角对立/对手）+ 人物与场景节奏 |
+| `references/dialogue.md` | 贝尔对话设计：三职能、潜台词、冲突、躲避错位、标签与动作节拍、人物声音、配比、常见病、改坏对话五步 |
+| `references/pov.md` | 展示与讲述、视角类型、视角漂移、场景与概括、有意义的细节、意象、语调 |
+| `references/language.md` | 中文句子基本功：主干、动词、形容词、长短句、承接、虚词、标点、朗读、常见病、改前改后十组、文字品质五条 |
+| `references/revision.md` | 从构思到修改的五个阶段 + 五层定位法 + 与去 AI 味 skill 的衔接 |
+
+## 去 AI 味：通用版管什么
+
+| 组 | 管什么 |
+|---|---|
+| A 说而不是演 | 情绪直述、心理旁白、替读者总结动机、段尾升华 |
+| B 修饰膨胀 | 形容词三连、程度副词、比喻滥用与复用、四字格排比、宏大意象 |
+| C 节奏句式 | 句长均匀、排比三连、对称对比句、**虚词堆叠、逗号碎句、虚动词与被动句、承接断裂、欧化句式** |
+| D 结构模板 | 段落等长、开场景描套路、对话过度功能化、破折号滥用、重复铺陈、对话同腔 |
+| E 残留痕迹 | 助手腔、说明文腔、自我叙述、知识免责 |
+| F 高频词 | 此外、赋能、闭环、氤氲、蜕变……扎堆出现才算信号，用得准就留 |
+
+## 去 AI 味：DeepSeek 特化版管什么
+
+DeepSeek 写中文长文，第一眼认出来的是**短**：句子短、分句短，短得没有理由。它把断句当成了有文采的默认手段，于是不重要的信息也配上金句的乐。
 
 | 编号 | 症状 | 例子 |
 |---|---|---|
@@ -37,35 +87,37 @@ DeepSeek 写中文长文，第一眼认出来的是短：句子短、分句短�
 | DS12 | 用词误置，词的档次不对 | 一处没塌的窝 / 空气里氤氲着潮气 |
 | DS13 | 标点频率失衡，句号扎堆逗号太少 | 逗号÷句号低于 1.0 |
 
-一句判据：把碎句连起来说，意思少了没有？没少，断句就是装饰。
+一句判据：**把碎句连起来说，意思少了没有？没少，断句就是装饰。**
 
-DS1 到 DS7 管句子，DS8、DS9、DS10 管更深的三处：一个把历史写成年表，一个把所有人写成同一个人，一个拿轻飘飘的情绪话跳过该交代的代价和缘由。DS11 和 DS12 管的是语域：哪一层话归谁，哪个词够不够格。DS13 是把 DS1 变成能算的尺子——数逗号除以句号，汉语叙事正常落在 1.2 到 1.6，低于 1.0 就是碎句成灾。参照《三体》第一章，叙述是规范书面语，人物一开口各归各的——大史满嘴大白话，汪淼是学术腔，申玉菲极简，叶文洁温软。
+DS1 到 DS7 管句子，DS8、DS9、DS10 管更深的三处：一个把历史写成年表，一个把所有人写成同一个人，一个拿轻飘飘的情绪话跳过该交代的代价和缘由。DS11、DS12 管语域，DS13 是把 DS1 变成能算的尺子。
 
-## 通用版管什么
+## ai-feel-checker（MCP）
 
-| 组 | 管什么 |
+句长、标点比例、高频词这三类是**能算的**，不该靠估。这个 MCP 服务把规则搬进代码，模型只拿结果，不占上下文。
+
+| 工具 | 作用 |
 |---|---|
-| A 说而不是演 | 情绪直述、心理旁白、替读者总结动机、段尾升华 |
-| B 修饰膨胀 | 形容词三连、程度副词、比喻滥用与复用、四字格排比、宏大意象 |
-| C 节奏句式 | 句长均匀、排比三连、对称对比句、"的"字堆叠、逗号碎句 |
-| D 结构模板 | 段落等长、开场景描套路、对话过度功能化、破折号滥用、重复铺陈、对话同腔 |
-| E 残留痕迹 | 助手腔、说明文腔、自我叙述 |
+| `check_punctuation` | 逗号÷句号，同时给全篇与去掉台词后的叙述层两个数；判定 1.2–1.6 为正常，并标出需要看的段落 |
+| `check_sentence_lengths` | 句数、平均、中位、标准差、区间分布，判断句长有没有被拉平 |
+| `scan_words` | F 组高频词与缓冲词（仿佛、似乎、某种……）的密度，按段给位置 |
+| `extract_dialogue` | 按顺序抽出所有引号台词，用于"遮住说话人看分不分得出是谁"的对话同腔检查 |
 
-## 用法
+不需要安装依赖，直接用 Node 跑 `mcp/ai-feel-checker/server.js`。接入编辑器的配置：
 
-两种模式。改写是默认的。
+    {
+      "mcpServers": {
+        "ai-feel-checker": {
+          "command": "node",
+          "args": ["<仓库路径>/mcp/ai-feel-checker/server.js"]
+        }
+      }
+    }
 
-    /deepseek-humanizer-zh-longform 润色这段
-    /deepseek-humanizer-zh-longform 把 第三章.md 的 AI 味去掉
-    /deepseek-humanizer-zh-longform 检测这篇的 AI 痕迹
-
-检测模式出一张表，逐条列出命中的规则、原文片段、严重度，再给五个维度打分：具体性、节奏、克制、信息密度、声音，满分 50。
-
-40 分以上基本是人的稿。25 到 39 分是混合稿，得逐条改。低于 25 分，典型 AI 腔。
+没装 MCP 也不影响 skill 使用，按 skill 里写的方法人工数一遍即可。
 
 ## 两条底线
 
-一，动的是讲法。人物、事件、因果、设定、时间线，一个都不动。
+一，动的是**讲法**。人物、事件、因果、设定、时间线，一个都不动。
 
 二，感官和动作细节可以往上补，人物关系、事件、因果这些不能加。把"她很害怕"改成她攥紧门框、听见自己吞口水的声音，行。给她添个弟弟，不行。
 
@@ -81,6 +133,8 @@ DS1 到 DS7 管句子，DS8、DS9、DS10 管更深的三处：一个把历史写
 
 ## 来源
 
-结构取自维基百科 Signs of AI writing 页面和 WikiProject AI Cleanup 团队的整理，参考了 blader/humanizer 与 op7418/Humanizer-zh 的公开做法，规则表按中文长文的叙事特点重写。
+去 AI 味规则取自维基百科 [Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)（WikiProject AI Cleanup 维护）与 [blader/humanizer](https://github.com/blader/humanizer)、[op7418/Humanizer-zh](https://github.com/op7418/Humanizer-zh) 的公开实践。
+
+写作教练骨架取自罗伯特·麦基《故事》、约翰·特鲁比《故事写作大师班》、詹姆斯·斯科特·贝尔《如何创作炫人耳目的对话》、珍妮特·伯罗威《小说写作：叙事技巧指南》，中文句子部分取自叶圣陶、夏丏尊《七十二堂写作课》。均为对公开框架的归纳与转述。
 
 MIT 协议。

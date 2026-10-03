@@ -1,0 +1,15 @@
+{
+  "name": "ai-feel-checker-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "中文文本 AI 痕迹的机械检查工具：标点频率、句长分布、高频词密度、台词提取。零依赖。",
+  "type": "commonjs",
+  "main": "server.js",
+  "bin": {
+    "ai-feel-checker": "server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
