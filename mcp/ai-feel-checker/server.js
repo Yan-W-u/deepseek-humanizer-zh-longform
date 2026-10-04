@@ -190,7 +190,8 @@ function checkSentenceLengths({ text }) {
     ['31–40 字', 31, 40], ['41–60 字', 41, 60], ['60 字以上', 61, Infinity],
   ];
   const bucketCounts = buckets.map(([, lo, hi]) => lens.filter((l) => l >= lo && l <= hi).length);
-  const maxShare = Math.max(...bucketCounts) / n;
+  const maxIdx = bucketCounts.indexOf(Math.max(...bucketCounts));
+  const maxShare = bucketCounts[maxIdx] / n;
 
   const lines = [];
   lines.push('## 句长分布');
@@ -203,9 +204,15 @@ function checkSentenceLengths({ text }) {
     lines.push(`| ${name} | ${bucketCounts[i]} | ${Math.round((bucketCounts[i] / n) * 100)}% |`);
   });
   lines.push('');
-  if (n >= 8 && maxShare > 0.5) {
-    lines.push(`判定：句长偏均匀——超过一半的句子落在同一个区间。节奏被拉平了，主动制造落差。`);
-  } else if (stdev < 6 && n >= 8) {
+  const MIN_N = 6;
+  if (n < MIN_N) {
+    lines.push(`判定：句数只有 ${n} 句，样本太少，不做分布结论。`);
+    if (maxShare > 0.5) {
+      lines.push(`提示：其中 ${Math.round(maxShare * 100)}% 的句子落在「${buckets[maxIdx][0]}」，短文本下同样可疑，建议连同 check_punctuation 的标点比例一起看。`);
+    }
+  } else if (maxShare > 0.5) {
+    lines.push(`判定：句长偏均匀——${Math.round(maxShare * 100)}% 的句子落在「${buckets[maxIdx][0]}」。节奏被拉平了，主动制造落差。`);
+  } else if (stdev < 6) {
     lines.push(`判定：标准差偏小（${stdev.toFixed(1)}），句长起伏不足。`);
   } else {
     lines.push('判定：句长有一定起伏。');
